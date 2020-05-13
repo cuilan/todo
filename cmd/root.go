@@ -16,10 +16,9 @@ var cfgFile string
 var dataFile string
 
 var RootCmd = &cobra.Command{
-	Use:   "todo-cli",
+	Use:   "todo",
 	Short: "Todo application for CLI.",
-	Long: `Help you record to-do items and work more efficiently.
-You're welcome`,
+	Long:  `Help you record to-do items and work more efficiently.`,
 }
 
 func Execute() {
@@ -42,13 +41,13 @@ func init() {
 	// 数据文件路径
 	RootCmd.PersistentFlags().StringVar(&dataFile,
 		"datafile",
-		home+string(os.PathSeparator)+".todo-cli.json",
+		home+string(os.PathSeparator)+".todo.json",
 		"data file to store todos")
 
 	// 配置文件路径
 	RootCmd.PersistentFlags().StringVar(&cfgFile,
 		"config",
-		home+string(os.PathSeparator)+".todo-cli.yaml",
+		home+string(os.PathSeparator)+".todo.yaml",
 		"config file")
 }
 
@@ -59,10 +58,10 @@ func initConfig() {
 		viper.SetConfigFile(cfgFile)
 	}
 
-	viper.SetConfigName(".todo-cli") // name of config file (without extension)
+	viper.SetConfigName(".todo") // name of config file (without extension)
 	viper.AddConfigPath("$HOME") // adding home directory as first search path
 	viper.AutomaticEnv()         // read in environment variables that match
-	viper.SetEnvPrefix("todo-cli")
+	viper.SetEnvPrefix("todo")
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
