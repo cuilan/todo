@@ -24,7 +24,7 @@ var (
 )
 
 func listRun(cmd *cobra.Command, args []string) {
-	items, err := todo.ReadItems(viper.GetString("datafile"))
+	items, err := todo.ReadItems(viper.GetString(".todo"))
 	if err != nil {
 		log.Printf("%v", err)
 	}

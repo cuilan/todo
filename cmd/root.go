@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"log"
@@ -17,10 +16,11 @@ var dataFile string
 
 var RootCmd = &cobra.Command{
 	Use:   "todo",
-	Short: "Todo application for CLI.",
+	Short: "Todo 待办事项命令行工具",
 	Long:  `Help you record to-do items and work more efficiently.`,
 }
 
+// root
 func Execute() {
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -29,14 +29,15 @@ func Execute() {
 }
 
 func init() {
-	//cobra.OnInitialize(initConfig)
+	cobra.OnInitialize(initConfig)
 	// Here you will define your flags and configuration settings
 	// Cobra supports Persistent Flags which if defined here will be global for your application
 
-	home, err := homedir.Dir()
-	if err != nil {
-		log.Println("Unable to detect home directory. Please set data file using --datafile.")
-	}
+	//home, err := homedir.Dir()
+	home := "."
+	//if err != nil {
+	//	log.Println("Unable to detect home directory. Please set data file using --datafile.")
+	//}
 
 	// 数据文件路径
 	RootCmd.PersistentFlags().StringVar(&dataFile,
@@ -53,14 +54,16 @@ func init() {
 
 // 初始化配置文件
 func initConfig() {
-	fmt.Println("cfg", cfgFile)
+	log.Println("cfg", cfgFile)
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	}
 
 	viper.SetConfigName(".todo") // name of config file (without extension)
-	viper.AddConfigPath("$HOME") // adding home directory as first search path
-	viper.AutomaticEnv()         // read in environment variables that match
+	viper.SetConfigType("yaml")  // REQUIRED if the config file does not have the extension in the name
+	viper.AddConfigPath(".")
+	viper.AddConfigPath("$HOME/.todo") // adding home directory as first search path
+	viper.AutomaticEnv()               // read in environment variables that match
 	viper.SetEnvPrefix("todo")
 
 	// If a config file is found, read it in.
