@@ -2,10 +2,11 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/cuilan/todo-cli/todo"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"log"
 )
 
 var priority int
@@ -19,6 +20,7 @@ var addCmd = &cobra.Command{
 
 func addRun(cmd *cobra.Command, args []string) {
 	items, err := todo.ReadItems(viper.GetString("datafile"))
+	// items, err := todo.ReadItems(".todo.json")
 	if err != nil {
 		log.Printf("%v", err)
 	}

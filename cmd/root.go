@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"log"
-	"os"
 )
 
 // 配置文件
@@ -16,7 +16,7 @@ var dataFile string
 
 var RootCmd = &cobra.Command{
 	Use:   "todo",
-	Short: "Todo 待办事项命令行工具",
+	Short: "Todo items commend line tools.",
 	Long:  `Help you record to-do items and work more efficiently.`,
 }
 
@@ -48,26 +48,27 @@ func init() {
 	// 配置文件路径
 	RootCmd.PersistentFlags().StringVar(&cfgFile,
 		"config",
-		home+string(os.PathSeparator)+".todo.yaml",
+		home+string(os.PathSeparator)+"config.yml",
 		"config file")
 }
 
 // 初始化配置文件
 func initConfig() {
-	log.Println("cfg", cfgFile)
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	}
 
-	viper.SetConfigName(".todo") // name of config file (without extension)
-	viper.SetConfigType("yaml")  // REQUIRED if the config file does not have the extension in the name
-	viper.AddConfigPath(".")
-	viper.AddConfigPath("$HOME/.todo") // adding home directory as first search path
-	viper.AutomaticEnv()               // read in environment variables that match
-	viper.SetEnvPrefix("todo")
+	viper.SetConfigName("config") // name of config file (without extension)
+	viper.SetConfigType("yml")    // REQUIRED if the config file does not have the extension in the name
+	viper.AddConfigPath(".")      // 第一个搜索路径
+	//viper.AddConfigPath("$HOME/.todo") // adding home directory as first search path
+	viper.AutomaticEnv() // read in environment variables that match
+	//viper.SetEnvPrefix("todo")
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
+
+	//log.Println("datafile", viper.Get("datafile"))
 }

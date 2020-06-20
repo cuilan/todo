@@ -2,13 +2,14 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/cuilan/todo-cli/todo"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"log"
 	"os"
 	"sort"
 	"text/tabwriter"
+
+	"github.com/cuilan/todo-cli/todo"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var listCmd = &cobra.Command{
@@ -24,7 +25,7 @@ var (
 )
 
 func listRun(cmd *cobra.Command, args []string) {
-	items, err := todo.ReadItems(viper.GetString(".todo"))
+	items, err := todo.ReadItems(viper.GetString("datafile"))
 	if err != nil {
 		log.Printf("%v", err)
 	}
