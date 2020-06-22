@@ -1,6 +1,6 @@
 package main
 
-import "github.com/cuilan/todo-cli/cmd"
+import "github.com/cuilan/todo/cmd"
 
 func main() {
 	// root

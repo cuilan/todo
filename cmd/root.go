@@ -2,8 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 
+	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -33,11 +35,10 @@ func init() {
 	// Here you will define your flags and configuration settings
 	// Cobra supports Persistent Flags which if defined here will be global for your application
 
-	//home, err := homedir.Dir()
-	home := "."
-	//if err != nil {
-	//	log.Println("Unable to detect home directory. Please set data file using --datafile.")
-	//}
+	home, err := homedir.Dir()
+	if err != nil {
+		log.Println("Unable to detect home directory. Please set data file using --datafile.")
+	}
 
 	// 数据文件路径
 	RootCmd.PersistentFlags().StringVar(&dataFile,
@@ -61,14 +62,11 @@ func initConfig() {
 	viper.SetConfigName("config") // name of config file (without extension)
 	viper.SetConfigType("yml")    // REQUIRED if the config file does not have the extension in the name
 	viper.AddConfigPath(".")      // 第一个搜索路径
-	//viper.AddConfigPath("$HOME/.todo") // adding home directory as first search path
-	viper.AutomaticEnv() // read in environment variables that match
-	//viper.SetEnvPrefix("todo")
+	viper.AddConfigPath("$HOME")  // adding home directory as first search path
+	viper.AutomaticEnv()          // read in environment variables that match
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
-
-	//log.Println("datafile", viper.Get("datafile"))
 }

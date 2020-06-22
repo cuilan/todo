@@ -1,4 +1,4 @@
-module github.com/cuilan/todo-cli
+module github.com/cuilan/todo
 
 go 1.12
 

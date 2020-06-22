@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/cuilan/todo-cli/todo"
+	"github.com/cuilan/todo/todo"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"log"
