@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/cuilan/todo/todo"
+	"github.com/cuilan/todo/entity"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -19,19 +19,19 @@ var addCmd = &cobra.Command{
 }
 
 func addRun(cmd *cobra.Command, args []string) {
-	items, err := todo.ReadItems(viper.GetString("datafile"))
-	// items, err := todo.ReadItems(".todo.json")
+	items, err := entity.ReadItems(viper.GetString("datafile"))
+	// items, err := entity.ReadItems(".todo.json")
 	if err != nil {
 		log.Printf("%v", err)
 	}
 	for _, x := range args {
-		item := todo.Item{Text: x}
+		item := entity.Item{Text: x}
 		item.SetPriority(priority)
 
 		items = append(items, item)
 	}
 
-	if err := todo.SaveItems(viper.GetString("datafile"), items); err != nil {
+	if err := entity.SaveItems(viper.GetString("datafile"), items); err != nil {
 		_ = fmt.Errorf("%v", err)
 	}
 }
